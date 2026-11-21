@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Profile — School Life Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #1E3A8A;
+    --primary-hover: #172554;
+    --primary-light: #EFF6FF;
+    --secondary: #0284C7;
+    --accent: #F59E0B;
+    --accent-light: #FEF3C7;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --bg: #F8FAFC;
+    --card: #FFFFFF;
+    --text: #0F172A;
+    --text-muted: #64748B;
+    --border: #E2E8F0;
+    --radius: 14px;
+    --shadow: 0 4px 16px rgba(30, 58, 138, 0.08);
+    --font: 'Poppins', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  .topbar {
+    background: var(--card);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid var(--border);
+  }
+  .back-btn {
+    background: var(--primary-light);
+    color: var(--primary);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .back-btn:hover { background: #DBEAFE; }
+  .topbar-title { font-size: 16px; font-weight: 700; color: var(--primary); }
+
+  .page { max-width: 540px; margin: auto; padding: 20px 16px 60px; }
+
+  /* PROFILE HERO */
+  .profile-hero {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: var(--radius);
+    padding: 28px 20px;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 20px rgba(30, 58, 138, 0.2);
+  }
+  .avatar {
+    font-size: 64px;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+  }
+  .profile-name { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+  .profile-username { font-size: 13px; opacity: .88; margin-top: 2px; }
+  .profile-badges { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+  .profile-badge {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* STATS */
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .stat-box {
+    background: var(--primary-light);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    border: 1px solid #DBEAFE;
+  }
+  .stat-num { font-size: 22px; font-weight: 700; color: var(--primary); }
+  .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
+
+  /* EDIT FORM */
+  .form-row { display: flex; flex-direction: column; gap: 10px; }
+  label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  input, select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: var(--font);
+    font-size: 14px;
+    outline: none;
+    transition: border .2s;
+    background: #fff;
+    color: var(--text);
+  }
+  input:focus, select:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+  }
+  .btn {
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-primary { background: var(--primary); color: #fff; width: 100%; }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-danger {
+    background: #FEF2F2;
+    color: var(--danger);
+    border: 1px solid #FECACA;
+    width: 100%;
+    margin-top: 8px;
+  }
+  .btn-danger:hover { background: #FEE2E2; }
+
+  /* AVATAR PICKER */
+  .avatar-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .avatar-opt {
+    font-size: 26px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s;
+    background: #fff;
+  }
+  .avatar-opt.selected {
+    border-color: var(--secondary);
+    background: var(--primary-light);
+    transform: scale(1.05);
+  }
+
+  /* ACTIVITY */
+  .activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 0;
+    border-bottom: 1px solid #F1F5F9;
+    font-size: 13px;
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-label { color: var(--text-muted); font-weight: 500; }
+  .activity-val { font-weight: 600; color: var(--text); }
+
+  .success-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--success);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 99px;
+    font-size: 14px;
+    font-weight: 600;
+    display: none;
+    z-index: 999;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  }
+  .success-toast.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="back-btn" onclick="window.location.href='index.html'">← Back to Dashboard</button>
+  <span class="topbar-title">Student Profile</span>
+</div>
+
+<div class="page">
+
+  <!-- Hero -->
+  <div class="profile-hero">
+    <div class="avatar" id="hero-avatar">🧑‍🎓</div>
+    <div class="profile-name" id="hero-name">—</div>
+    <div class="profile-username" id="hero-username">student@school.edu</div>
+    <div class="profile-badges">
+      <span class="profile-badge" id="hero-course">—</span>
+      <span class="profile-badge" id="hero-roll">—</span>
+      <span class="profile-badge" id="hero-school">—</span>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="card">
+    <div class="card-title">📊 Academic & Activity Progress</div>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-num" id="stat-assignments">0</div>
+        <div class="stat-label">Homework Done</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-attendance">—</div>
+        <div class="stat-label">Attendance Rate</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-exams">0</div>
+        <div class="stat-label">Exams Scheduled</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-materials">0</div>
+        <div class="stat-label">Study Materials</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-habits">0</div>
+        <div class="stat-label">Habits Today</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="stat-pomo">0</div>
+        <div class="stat-label">Focus Sessions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student Info -->
+  <div class="card">
+    <div class="card-title">🏫 School Enrollment Details</div>
+    <div class="activity-item">
+      <span class="activity-label">Full Name</span>
+      <span class="activity-val" id="info-name">—</span>
+    </div>
+    <div class="activity-item">
+      <span class="activity-label">Class & Section</span>
+      <span class="activity-val" id="info-course">—</span>
+    </div>
+    <div class="activity-item">
+      <span class="activity-label">Roll Number</span>
+      <span class="activity-val" id="info-roll">—</span>
+    </div>
+    <div class="activity-item">
+      <span class="activity-label">School / Institution</span>
+      <span class="activity-val" id="info-school">—</span>
+    </div>
+    <div class="activity-item">
+      <span class="activity-label">Email Address</span>
+      <span class="activity-val" id="info-email">—</span>
+    </div>
+    <div class="activity-item">
+      <span class="activity-label">Enrolled Since</span>
+      <span class="activity-val" id="info-joined">—</span>
+    </div>
+  </div>
+
+  <!-- Edit Profile -->
+  <div class="card">
+    <div class="card-title">✏️ Edit Student Profile</div>
+    <div class="form-row">
+      <label>Student Full Name</label>
+      <input id="edit-name" placeholder="Your name" />
+
+      <label>Class & Section</label>
+      <select id="edit-course">
+        <option>Class 6 - Section A</option>
+        <option>Class 6 - Section B</option>
+        <option>Class 7 - Section A</option>
+        <option>Class 7 - Section B</option>
+        <option>Class 8 - Section A</option>
+        <option>Class 8 - Section B</option>
+        <option>Class 9 - Section A</option>
+        <option>Class 9 - Section B</option>
+        <option>Class 10 - Section A</option>
+        <option>Class 10 - Section B</option>
+        <option>Class 11 - Science</option>
+        <option>Class 11 - Commerce</option>
+        <option>Class 11 - Arts / Humanities</option>
+        <option>Class 12 - Science</option>
+        <option>Class 12 - Commerce</option>
+        <option>Class 12 - Arts / Humanities</option>
+        <option>Teacher / School Staff</option>
+      </select>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label>Roll Number</label>
+          <input id="edit-roll" placeholder="e.g. 24" />
+        </div>
+        <div>
+          <label>School Name</label>
+          <input id="edit-school" placeholder="e.g. DPS Academy" />
+        </div>
+      </div>
+
+      <label>Avatar</label>
+      <div class="avatar-row" id="edit-avatar-row">
+        <button type="button" class="avatar-opt" data-avatar="🧑‍🎓">🧑‍🎓</button>
+        <button type="button" class="avatar-opt" data-avatar="👩‍🎓">👩‍🎓</button>
+        <button type="button" class="avatar-opt" data-avatar="🎒">🎒</button>
+        <button type="button" class="avatar-opt" data-avatar="✏️">✏️</button>
+        <button type="button" class="avatar-opt" data-avatar="🔬">🔬</button>
+        <button type="button" class="avatar-opt" data-avatar="⚽">⚽</button>
+      </div>
+      <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+    </div>
+  </div>
+
+  <!-- Sign Out -->
+  <div class="card">
+    <div class="card-title">⚙️ Account Session</div>
+    <button class="btn btn-danger" onclick="signOut()">🚪 Sign Out</button>
+  </div>
+
+</div>
+
+<div class="success-toast" id="toast">✅ Profile updated successfully!</div>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getAuth, onAuthStateChanged, signOut as firebaseSignOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyBPWn8SrzgfYGHSJV1bC5gHNOjfS4-KoYw",
+    authDomain: "college-hub-92f7d.firebaseapp.com",
+    projectId: "college-hub-92f7d",
+    storageBucket: "college-hub-92f7d.firebasestorage.app",
+    messagingSenderId: "1051088088088",
+    appId: "1:1051088088088:web:c0e0e0e0e0e0e0e0e0e0e0"
+  };
+
+  let auth = null;
+  try {
+    const app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+  } catch (e) {
+    console.warn('Firebase init:', e);
+  }
+
+  // Session check
+  const sessionUser = localStorage.getItem('hub:session');
+  if (!sessionUser) {
+    window.location.href = 'auth.html';
+  } else {
+    loadProfile({ uid: sessionUser });
+  }
+
+  if (auth) {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loadProfile(user);
+      }
+    });
+  }
+
+  function loadProfile(user) {
+    const username = user?.uid || sessionUser;
+    let profile = {};
+    try {
+      const userScoped = username ? localStorage.getItem(username + ':profile') : null;
+      if (userScoped) {
+        profile = JSON.parse(userScoped) || {};
+      } else {
+        const raw = localStorage.getItem('hub:profile');
+        if (raw) {
+          const parsed = JSON.parse(raw) || {};
+          if (!parsed.uid || parsed.uid === username) {
+            profile = parsed;
+          }
+        }
+      }
+    } catch (e) {}
+    
+    const loadData = (key, fb) => {
+      try {
+        const val = localStorage.getItem(username + ':' + key);
+        return val !== null ? JSON.parse(val) : fb;
+      } catch {
+        return fb;
+      }
+    };
+
+    // Filter out any demo seeded IDs
+    const FAKE_DEMO_IDS = new Set([
+      'c1','c2','c3','c4','c5','c6','c7','c8','c9','c10','c11','c12','c13','c14','c15','c16',
+      'c17','c18','c19','c20','c21','c22','c23','c24','c25','c26','c27','c28','c29','c30',
+      'c31','c32','c33','c34','c35','c36','c37','c38','c39','c40','c41','c42','c43','c44',
+      'a1','a2','a3','a4','a5','a6',
+      's1','s2','s3','s4','s5','s6',
+      'e1','e2','e3','e4',
+      'ec1','ec2','ec3','ec4','ec5','ec6',
+      'mk1','mk2','mk3','mk4','mk5',
+      't1','t2','t3','t4',
+      'cl1','cl2','cl3','cl4',
+      'ev1','ev2','ev3'
+    ]);
+    const isReal = item => item && !FAKE_DEMO_IDS.has(item.id);
+
+    // Hero elements - only show actual student info or 'Not set'
+    document.getElementById('hero-avatar').textContent = profile.avatar || '🧑‍🎓';
+    document.getElementById('hero-name').textContent = profile.name || (profile.email ? profile.email.split('@')[0] : 'Student');
+    document.getElementById('hero-username').textContent = profile.email || 'student@school.edu';
+    document.getElementById('hero-course').textContent = profile.course || 'Class: Not set';
+    document.getElementById('hero-roll').textContent = profile.rollNo ? 'Roll No: ' + profile.rollNo : 'Roll No: Not set';
+    document.getElementById('hero-school').textContent = profile.school || 'School: Not set';
+
+    // Account info
+    document.getElementById('info-name').textContent = profile.name || 'Not set';
+    document.getElementById('info-course').textContent = profile.course || 'Not set';
+    document.getElementById('info-roll').textContent = profile.rollNo || 'Not set';
+    document.getElementById('info-school').textContent = profile.school || 'Not set';
+    document.getElementById('info-email').textContent = profile.email || 'student@school.edu';
+    document.getElementById('info-joined').textContent = profile.joinedAt || new Date().toLocaleDateString('en-IN');
+
+    // Stats calculations
+    const rawAssignments = loadData('assignments', []);
+    const assignList = (Array.isArray(rawAssignments) ? rawAssignments : (rawAssignments.assignments || [])).filter(isReal);
+    const doneTasks = assignList.filter(a => a.done || a.status === 'completed').length;
+
+    const rawSubjects = loadData('subjects', []);
+    const subjects = rawSubjects.filter(isReal);
+    let totalPresent = 0, totalClasses = 0;
+    subjects.forEach(s => {
+      totalPresent += (s.present || 0);
+      totalClasses += (s.present || 0) + (s.absent || 0);
+    });
+    const attPct = totalClasses > 0 ? Math.round((totalPresent / totalClasses) * 100) + '%' : '—';
+
+    const rawExams = loadData('exams', []);
+    const exams = rawExams.filter(isReal);
+
+    const studyMaterials = loadData('studyMaterials', []);
+    const notes = loadData('notes', []);
+    const totalMaterials = studyMaterials.length + notes.length;
+
+    const habits = loadData('habits', []);
+    const habitLog = loadData('habitLog', {});
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const todayLog = habitLog[todayStr] || {};
+    const habitsDone = Object.values(todayLog).filter(Boolean).length;
+
+    const pomodoro = loadData('pomodoro', { sessions: 0, date: '' });
+    const pomoToday = pomodoro.date === todayStr ? pomodoro.sessions : 0;
+
+    document.getElementById('stat-assignments').textContent = doneTasks;
+    document.getElementById('stat-attendance').textContent = attPct;
+    document.getElementById('stat-exams').textContent = exams.length;
+    document.getElementById('stat-materials').textContent = totalMaterials;
+    document.getElementById('stat-habits').textContent = habitsDone + '/' + habits.length;
+    document.getElementById('stat-pomo').textContent = pomoToday;
+
+    // Edit form pre-fill
+    document.getElementById('edit-name').value = profile.name || '';
+    if (profile.course) document.getElementById('edit-course').value = profile.course;
+    document.getElementById('edit-roll').value = profile.rollNo || '';
+    document.getElementById('edit-school').value = profile.school || '';
+
+    // Avatar picker
+    document.querySelectorAll('.avatar-opt').forEach(btn => {
+      btn.classList.toggle('selected', btn.dataset.avatar === (profile.avatar || '🧑‍🎓'));
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.avatar-opt').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  }
+
+  window.saveProfile = function() {
+    const profile = JSON.parse(localStorage.getItem('hub:profile') || '{}');
+    const name = document.getElementById('edit-name').value.trim();
+    const course = document.getElementById('edit-course').value;
+    const rollNo = document.getElementById('edit-roll').value.trim();
+    const school = document.getElementById('edit-school').value.trim();
+    const sel = document.querySelector('.avatar-opt.selected');
+    const avatar = sel ? sel.dataset.avatar : profile.avatar;
+
+    if (!name) return;
+    const updated = { ...profile, name, course, rollNo, school, avatar, uid: sessionUser };
+    localStorage.setItem('hub:profile', JSON.stringify(updated));
+    if (sessionUser) {
+      localStorage.setItem(sessionUser + ':profile', JSON.stringify(updated));
+    }
+
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+      location.reload();
+    }, 1200);
+  };
+
+  window.signOut = async function() {
+    try {
+      if (auth) {
+        await firebaseSignOut(auth);
+      }
+    } catch (err) {
+      console.error('Sign out error:', err);
+    } finally {
+      localStorage.removeItem('hub:session');
+      window.location.href = 'auth.html';
+    }
+  };
+</script>
+</body>
+</html>

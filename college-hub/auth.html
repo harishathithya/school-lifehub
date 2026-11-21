@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>School Life Hub — Sign In</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #1E3A8A;
+    --primary-hover: #172554;
+    --primary-light: #EFF6FF;
+    --secondary: #0284C7;
+    --accent: #F59E0B;
+    --accent-light: #FEF3C7;
+    --success: #10B981;
+    --danger: #EF4444;
+    --bg: #F8FAFC;
+    --card: #FFFFFF;
+    --text: #0F172A;
+    --text-muted: #64748B;
+    --border: #E2E8F0;
+    --radius: 14px;
+    --shadow: 0 4px 16px rgba(30, 58, 138, 0.08);
+    --font: 'Poppins', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+
+  .container { width: 100%; max-width: 440px; }
+
+  .logo { text-align: center; margin-bottom: 24px; }
+  .logo-icon-wrap {
+    width: 68px;
+    height: 68px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #fff;
+    border-radius: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    box-shadow: 0 8px 20px rgba(30, 58, 138, 0.2);
+    margin-bottom: 12px;
+  }
+  .logo h1 { font-size: 24px; font-weight: 700; color: var(--primary); letter-spacing: -0.02em; }
+  .logo p { font-size: 13px; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+  }
+
+  .tabs {
+    display: flex;
+    background: var(--primary-light);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 24px;
+  }
+  .tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--text-muted);
+    border: none;
+    background: none;
+    font-family: var(--font);
+    transition: all .2s;
+  }
+  .tab.active {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(30, 58, 138, 0.25);
+  }
+
+  .form { display: none; flex-direction: column; gap: 14px; }
+  .form.active { display: flex; }
+
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  input, select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: var(--font);
+    font-size: 14px;
+    outline: none;
+    transition: border .2s, box-shadow .2s;
+    background: #fff;
+    color: var(--text);
+  }
+  input:focus, select:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+  }
+
+  .btn {
+    padding: 13px;
+    border-radius: 10px;
+    border: none;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-primary:disabled { opacity: .6; cursor: not-allowed; }
+  .btn-demo {
+    background: var(--accent-light);
+    color: #92400E;
+    border: 1.5px dashed var(--accent);
+    margin-top: 10px;
+    font-weight: 600;
+  }
+  .btn-demo:hover { background: #FDE68A; }
+  .btn-ghost { background: var(--primary-light); color: var(--primary); margin-top: 6px; }
+
+  .msg { border-radius: 10px; padding: 12px 14px; font-size: 13px; display: none; line-height: 1.5; }
+  .msg.show { display: block; }
+  .msg.error { background: #FEF2F2; color: var(--danger); border: 1px solid #FECACA; }
+  .msg.success { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
+  .msg.info { background: var(--primary-light); color: var(--primary); border: 1px solid #BFDBFE; }
+
+  .avatar-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .avatar-opt {
+    font-size: 26px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s;
+    background: #fff;
+  }
+  .avatar-opt.selected {
+    border-color: var(--secondary);
+    background: var(--primary-light);
+    transform: scale(1.05);
+  }
+
+  .forgot { text-align: right; font-size: 12px; color: var(--secondary); cursor: pointer; font-weight: 600; }
+  .forgot:hover { text-decoration: underline; }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 12px;
+    margin: 12px 0 6px;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border);
+  }
+  .divider span { padding: 0 10px; }
+
+  /* Verification screen */
+  .verify-screen { display: none; text-align: center; padding: 10px 0; }
+  .verify-screen.show { display: block; }
+  .verify-icon { font-size: 52px; margin-bottom: 12px; }
+  .verify-screen h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
+  .verify-screen p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 18px; }
+  .verify-email-badge { background: var(--primary-light); color: var(--primary); border-radius: 8px; padding: 8px 14px; font-size: 14px; font-weight: 600; display: inline-block; margin-bottom: 20px; }
+
+  /* Config screen */
+  .config-screen { display: none; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 12px; padding: 14px; margin-bottom: 16px; font-size: 13px; line-height: 1.6; }
+  .config-screen.show { display: block; }
+  .config-screen code { background: #FEF3C7; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo">
+    <div class="logo-icon-wrap">🏫</div>
+    <h1>School Life Hub</h1>
+    <p>Everything a student needs, all in one place.</p>
+  </div>
+
+  <!-- Firebase config warning banner -->
+  <div class="config-screen" id="config-warning">
+    ⚠️ <strong>Firebase notice:</strong> Online authentication requires Firebase configuration. You can also click <strong>Quick Demo Student Login</strong> below to test the platform instantly!
+  </div>
+
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('signin')">Sign In</button>
+      <button class="tab" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- SIGN IN FORM -->
+    <form class="form active" id="form-signin" onsubmit="signIn(event)">
+      <div class="field-group">
+        <label>School Email Address</label>
+        <input id="si-email" type="email" placeholder="student@school.edu" autocomplete="email" />
+      </div>
+      <div class="field-group">
+        <label>Password</label>
+        <input id="si-password" type="password" placeholder="Enter your password" autocomplete="current-password" />
+        <div class="forgot" onclick="forgotPassword()">Forgot password?</div>
+      </div>
+      <div class="msg error" id="si-error"></div>
+      <div class="msg info" id="si-info"></div>
+      <button class="btn btn-primary" type="submit" id="si-btn">Sign In →</button>
+    </form>
+
+    <!-- SIGN UP FORM -->
+    <form class="form" id="form-signup" onsubmit="signUp(event)">
+      <div class="field-group">
+        <label>Student Full Name</label>
+        <input id="su-name" placeholder="e.g. Aarav Sharma" />
+      </div>
+      <div class="field-group">
+        <label>School Email Address</label>
+        <input id="su-email" type="email" placeholder="student@school.edu" autocomplete="email" />
+      </div>
+      <div class="field-group">
+        <label>Password</label>
+        <input id="su-password" type="password" placeholder="Min 6 characters" autocomplete="new-password" />
+      </div>
+      <div class="field-group">
+        <label>Class & Section</label>
+        <select id="su-course">
+          <option value="">Select your class & section...</option>
+          <option>Class 6 - Section A</option>
+          <option>Class 6 - Section B</option>
+          <option>Class 7 - Section A</option>
+          <option>Class 7 - Section B</option>
+          <option>Class 8 - Section A</option>
+          <option>Class 8 - Section B</option>
+          <option>Class 9 - Section A</option>
+          <option>Class 9 - Section B</option>
+          <option>Class 10 - Section A</option>
+          <option>Class 10 - Section B</option>
+          <option>Class 11 - Science</option>
+          <option>Class 11 - Commerce</option>
+          <option>Class 11 - Arts / Humanities</option>
+          <option>Class 12 - Science</option>
+          <option>Class 12 - Commerce</option>
+          <option>Class 12 - Arts / Humanities</option>
+          <option>Teacher / School Staff</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="field-group">
+          <label>Roll Number</label>
+          <input id="su-roll" placeholder="e.g. 24" />
+        </div>
+        <div class="field-group">
+          <label>School Name</label>
+          <input id="su-school" placeholder="e.g. DPS Academy" />
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Pick an Avatar</label>
+        <div class="avatar-row" id="avatar-row">
+          <button type="button" class="avatar-opt selected" data-avatar="🧑‍🎓">🧑‍🎓</button>
+          <button type="button" class="avatar-opt" data-avatar="👩‍🎓">👩‍🎓</button>
+          <button type="button" class="avatar-opt" data-avatar="🎒">🎒</button>
+          <button type="button" class="avatar-opt" data-avatar="✏️">✏️</button>
+          <button type="button" class="avatar-opt" data-avatar="🔬">🔬</button>
+          <button type="button" class="avatar-opt" data-avatar="⚽">⚽</button>
+        </div>
+      </div>
+      <div class="msg error" id="su-error"></div>
+      <button class="btn btn-primary" type="submit" id="su-btn">Create Student Account →</button>
+    </form>
+
+    <!-- EMAIL VERIFICATION SCREEN -->
+    <div class="verify-screen" id="verify-screen">
+      <div class="verify-icon">📧</div>
+      <h3>Check your school email!</h3>
+      <p>We sent a verification link to:</p>
+      <div class="verify-email-badge" id="verify-email-display">—</div>
+      <p>Click the link in the email to verify your account, then come back and sign in.</p>
+      <div class="msg error" id="resend-error"></div>
+      <div class="msg success" id="resend-success"></div>
+      <button class="btn btn-primary" onclick="resendVerification()">Resend Email</button>
+      <button class="btn btn-ghost" onclick="backToSignIn()">← Back to Sign In</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── FIREBASE SDK ──────────────────────────────────────────── -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import {
+    getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+    sendPasswordResetEmail, onAuthStateChanged
+  } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+
+  // ── FIREBASE CONFIG ──────────────────────────────────────────────
+  const firebaseConfig = {
+    apiKey: "AIzaSyBPWn8SrzgfYGHSJV1bC5gHNOjfS4-KoYw",
+    authDomain: "college-hub-92f7d.firebaseapp.com",
+    projectId: "college-hub-92f7d",
+    storageBucket: "college-hub-92f7d.firebasestorage.app",
+    messagingSenderId: "1051088088088",
+    appId: "1:1051088088088:web:c0e0e0e0e0e0e0e0e0e0e0"
+  };
+  // ────────────────────────────────────────────────────────────────
+
+  const isConfigured = firebaseConfig.apiKey !== "YOUR_API_KEY";
+
+  let app, auth;
+
+  if (isConfigured) {
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+
+      // If already signed in, redirect to app
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          window.location.href = 'index.html';
+        }
+      });
+    } catch (e) {
+      console.warn('Firebase init warning:', e);
+    }
+  }
+
+  // ── HELPERS ──────────────────────────────────────────────────────
+  function setLoading(btnId, loading, text) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    btn.disabled = loading;
+    btn.textContent = loading ? '...' : text;
+  }
+  function showMsg(id, msg) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = msg; el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 5000);
+  }
+  function clearMsgs(...ids) { ids.forEach(id => { const el = document.getElementById(id); if(el) el.classList.remove('show'); }); }
+
+  function firebaseError(code) {
+    const map = {
+      'auth/email-already-in-use': 'This email is already registered. Sign in instead.',
+      'auth/invalid-email': 'Please enter a valid school email address.',
+      'auth/weak-password': 'Password must be at least 6 characters.',
+      'auth/user-not-found': 'No account found with this email.',
+      'auth/wrong-password': 'Wrong password. Try again or reset it.',
+      'auth/invalid-credential': 'Wrong email or password.',
+      'auth/too-many-requests': 'Too many attempts. Please wait a moment.',
+      'auth/network-request-failed': 'Network error. Try Demo Student Login or check connection.',
+    };
+    return map[code] || 'Something went wrong. Please try again.';
+  }
+
+  function getSelectedAvatar() {
+    const sel = document.querySelector('.avatar-opt.selected');
+    return sel ? sel.dataset.avatar : '🧑‍🎓';
+  }
+
+  // ── SIGN UP ──────────────────────────────────────────────────────
+  window.signUp = async function(e) {
+    e.preventDefault();
+    clearMsgs('su-error');
+
+    const name = document.getElementById('su-name').value.trim();
+    const email = document.getElementById('su-email').value.trim();
+    const password = document.getElementById('su-password').value;
+    const course = document.getElementById('su-course').value;
+    const rollNo = (document.getElementById('su-roll')?.value || '').trim();
+    const school = (document.getElementById('su-school')?.value || '').trim();
+    const avatar = getSelectedAvatar();
+
+    if (!name || !email || !password || !course) {
+      showMsg('su-error', 'Please fill in Name, Email, Password, and Class.');
+      return;
+    }
+
+    setLoading('su-btn', true, 'Creating account...');
+    try {
+      if (auth) {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        const user = cred.user;
+
+        const profile = {
+          name, email, course, rollNo, school, avatar,
+          joinedAt: new Date().toLocaleDateString('en-IN'),
+          uid: user.uid
+        };
+        localStorage.setItem('hub:profile', JSON.stringify(profile));
+        localStorage.setItem(user.uid + ':profile', JSON.stringify(profile));
+        localStorage.setItem('hub:session', user.uid);
+        window.location.href = 'index.html';
+      } else {
+        // Local fallback if Firebase auth object unavailable
+        const localUid = 'usr_' + Date.now();
+        const profile = {
+          name, email, course, rollNo, school, avatar,
+          joinedAt: new Date().toLocaleDateString('en-IN'),
+          uid: localUid
+        };
+        localStorage.setItem('hub:profile', JSON.stringify(profile));
+        localStorage.setItem(localUid + ':profile', JSON.stringify(profile));
+        localStorage.setItem('hub:session', localUid);
+        window.location.href = 'index.html';
+      }
+    } catch (err) {
+      console.error(err);
+      showMsg('su-error', firebaseError(err.code));
+    } finally {
+      setLoading('su-btn', false, 'Create Student Account →');
+    }
+  };
+
+  // ── SIGN IN ──────────────────────────────────────────────────────
+  window.signIn = async function(e) {
+    e.preventDefault();
+    clearMsgs('si-error', 'si-info');
+
+    const email = document.getElementById('si-email').value.trim();
+    const password = document.getElementById('si-password').value;
+    if (!email || !password) {
+      showMsg('si-error', 'Please enter your email and password.');
+      return;
+    }
+
+    setLoading('si-btn', true, 'Signing in...');
+    try {
+      if (auth) {
+        const cred = await signInWithEmailAndPassword(auth, email, password);
+        const user = cred.user;
+        localStorage.setItem('hub:session', user.uid);
+        window.location.href = 'index.html';
+      } else {
+        showMsg('si-error', 'Auth service unavailable. Use Demo Student Login.');
+      }
+    } catch (err) {
+      console.error(err);
+      showMsg('si-error', firebaseError(err.code));
+    } finally {
+      setLoading('si-btn', false, 'Sign In →');
+    }
+  };
+
+  // ── FORGOT PASSWORD ──────────────────────────────────────────────
+  window.forgotPassword = async function() {
+    if (!auth) return;
+    const email = document.getElementById('si-email').value.trim();
+    if (!email) { showMsg('si-error', 'Enter your email above first.'); return; }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      showMsg('si-info', '✅ Password reset email sent! Check your inbox.');
+    } catch (err) {
+      showMsg('si-error', firebaseError(err.code));
+    }
+  };
+
+  // ── TAB SWITCH ───────────────────────────────────────────────────
+  window.switchTab = function(tab) {
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (i === 0) === (tab === 'signin')));
+    document.getElementById('form-signin').classList.toggle('active', tab === 'signin');
+    document.getElementById('form-signup').classList.toggle('active', tab === 'signup');
+  };
+
+  // ── AVATAR PICKER ────────────────────────────────────────────────
+  document.querySelectorAll('.avatar-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.avatar-opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+
+</script>
+</body>
+</html>

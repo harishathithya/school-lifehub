@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>School Life Hub — Student Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #1E3A8A;
+    --primary-hover: #172554;
+    --primary-light: #EFF6FF;
+    --secondary: #0284C7;
+    --secondary-light: #E0F2FE;
+    --accent: #F59E0B;
+    --accent-light: #FEF3C7;
+    --success: #10B981;
+    --success-light: #ECFDF5;
+    --warning: #F59E0B;
+    --warning-light: #FFFBEB;
+    --danger: #EF4444;
+    --danger-light: #FEF2F2;
+    --bg: #F8FAFC;
+    --card: #FFFFFF;
+    --text: #0F172A;
+    --text-muted: #64748B;
+    --border: #E2E8F0;
+    --radius: 14px;
+    --shadow: 0 4px 14px rgba(30, 58, 138, 0.06);
+    --shadow-md: 0 8px 24px rgba(30, 58, 138, 0.09);
+    --font: 'Poppins', sans-serif;
+  }
+
+  [data-theme="dark"] {
+    --primary: #3B82F6;
+    --primary-hover: #60A5FA;
+    --primary-light: #1E293B;
+    --secondary: #38BDF8;
+    --secondary-light: #0F172A;
+    --accent: #FBBF24;
+    --accent-light: #78350F33;
+    --success: #34D399;
+    --success-light: #064E3B33;
+    --warning: #FBBF24;
+    --warning-light: #78350F33;
+    --danger: #F87171;
+    --danger-light: #7F1D1D33;
+    --bg: #0B1120;
+    --card: #1E293B;
+    --text: #F8FAFC;
+    --text-muted: #94A3B8;
+    --border: #334155;
+    --shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  /* NAVIGATION */
+  .nav {
+    background: var(--card);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1160px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    height: 64px;
+    gap: 12px;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+    text-decoration: none;
+  }
+  .brand-icon {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, #1E3A8A, #0284C7);
+    color: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
+  }
+  .brand-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -0.02em;
+  }
+  .brand-tag {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: block;
+    line-height: 1;
+    margin-top: 1px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 6px 0;
+    scrollbar-width: none;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+
+  .nav-btn {
+    padding: 10px 14px;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    white-space: nowrap;
+    border-radius: 8px;
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-btn:hover {
+    color: var(--primary);
+    background: var(--primary-light);
+  }
+  .nav-btn.active {
+    color: var(--primary);
+    background: var(--primary-light);
+    font-weight: 700;
+  }
+
+  .nav-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .profile-pill {
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .profile-pill:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(30, 58, 138, 0.12);
+  }
+
+  /* LAYOUT */
+  .page {
+    display: none;
+    max-width: 1160px;
+    margin: auto;
+    padding: 24px 16px 80px;
+  }
+  .page.active { display: block; animation: fadeIn .25s ease-out; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title-badge {
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 2px 8px;
+    border-radius: 99px;
+  }
+
+  /* HERO / GREETING */
+  .greeting-banner {
+    background: linear-gradient(135deg, #1E3A8A 0%, #0369A1 100%);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 24px rgba(30, 58, 138, 0.18);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .greeting-left h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+  .greeting-left p { font-size: 13px; opacity: .88; margin-top: 4px; }
+  .greeting-meta {
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(4px);
+    border-radius: 12px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+  }
+  .greeting-meta-item { display: flex; flex-direction: column; }
+  .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; opacity: .8; }
+  .meta-val { font-weight: 700; font-size: 14px; }
+
+  /* STATS METRIC CARDS */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .metric-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: transform .2s;
+  }
+  .metric-card:hover { transform: translateY(-2px); }
+  .metric-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .icon-blue { background: #EFF6FF; color: #1E3A8A; }
+  .icon-amber { background: #FEF3C7; color: #B45309; }
+  .icon-green { background: #ECFDF5; color: #047857; }
+  .icon-purple { background: #F3E8FF; color: #6B21A8; }
+  .metric-info h3 { font-size: 22px; font-weight: 700; color: var(--text); line-height: 1.1; }
+  .metric-info p { font-size: 12px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
+
+  /* QUICK ACTIONS */
+  .quick-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .quick-btn {
+    padding: 14px 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    background: var(--card);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    box-shadow: var(--shadow);
+  }
+  .quick-btn span.q-icon { font-size: 22px; }
+  .quick-btn:hover {
+    border-color: var(--secondary);
+    background: var(--primary-light);
+    color: var(--primary);
+    transform: translateY(-2px);
+  }
+
+  /* BUTTONS & FORMS */
+  .btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-secondary { background: var(--primary-light); color: var(--primary); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: #DBEAFE; }
+  .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 6px; }
+  .btn-danger { background: var(--danger-light); color: var(--danger); border: 1px solid #FECACA; }
+  .btn-danger:hover { background: #FEE2E2; }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-success:hover { opacity: .9; }
+
+  .form-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .form-row label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
+  input, select, textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: var(--font);
+    font-size: 14px;
+    outline: none;
+    transition: border .2s;
+    background: var(--card);
+    color: var(--text);
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+  }
+  textarea { resize: vertical; min-height: 80px; }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    background: var(--primary-light);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .filter-bar select, .filter-bar input {
+    width: auto;
+    min-width: 150px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  /* LIST ITEMS / CARDS */
+  .item-card {
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    transition: all .2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .item-card:hover { border-color: #CBD5E1; }
+  .item-card.border-warn { border-left: 4px solid var(--warning); background: var(--warning-light); }
+  .item-card.border-danger { border-left: 4px solid var(--danger); background: var(--danger-light); }
+  .item-card.border-success { border-left: 4px solid var(--success); background: var(--success-light); }
+  .item-card.border-primary { border-left: 4px solid var(--secondary); background: var(--primary-light); }
+
+  /* TIMETABLE */
+  .tt-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--card);
+  }
+  .tt-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 800px;
+    font-size: 13px;
+  }
+  .tt-table th, .tt-table td {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .tt-table th {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 700;
+    text-align: center;
+  }
+  .tt-table tr.today-row td {
+    background: #EFF6FF88;
+    border-left: 4px solid var(--secondary);
+  }
+  .tt-period-box {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+  }
+  .tt-sub-name { font-weight: 700; color: var(--primary); font-size: 13px; }
+  .tt-sub-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .break-badge {
+    background: #FEF3C7;
+    color: #92400E;
+    font-weight: 600;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  /* CHIPS / BADGES */
+  .badge {
+    padding: 3px 9px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .badge-primary { background: var(--primary-light); color: var(--primary); }
+  .badge-secondary { background: var(--secondary-light); color: var(--secondary); }
+  .badge-success { background: var(--success-light); color: var(--success); }
+  .badge-warning { background: var(--warning-light); color: #B45309; }
+  .badge-danger { background: var(--danger-light); color: var(--danger); }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .chip {
+    padding: 7px 14px;
+    border-radius: 99px;
+    border: 1.5px solid var(--border);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    background: var(--card);
+    color: var(--text-muted);
+    font-family: var(--font);
+  }
+  .chip:hover { border-color: var(--secondary); color: var(--secondary); }
+  .chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  /* ATTENDANCE */
+  .att-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+  }
+  .att-title { font-weight: 600; font-size: 14px; }
+  .att-score { font-size: 16px; font-weight: 700; }
+  .att-btns { display: flex; gap: 6px; align-items: center; }
+  .att-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .att-btn.present { background: #DCFCE7; color: #15803D; }
+  .att-btn.present:hover { background: #BBF7D0; }
+  .att-btn.absent { background: #FEE2E2; color: #B91C1C; }
+  .att-btn.absent:hover { background: #FECACA; }
+
+  /* FOCUS TIMER */
+  .pomo-wrap {
+    text-align: center;
+    padding: 24px 16px;
+    background: var(--primary-light);
+    border-radius: 16px;
+    border: 1px solid #DBEAFE;
+  }
+  .pomo-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 8px solid var(--secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    background: var(--card);
+    box-shadow: 0 4px 16px rgba(2, 132, 199, 0.15);
+  }
+  .pomo-time { font-size: 34px; font-weight: 700; color: var(--primary); }
+  .pomo-label { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+
+  /* ANNOUNCEMENTS */
+  .announcement-card {
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    transition: all .2s;
+  }
+  .announcement-card.pinned {
+    border-left: 5px solid var(--accent);
+    background: #FFFDF7;
+  }
+  .ann-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; color: var(--text-muted); }
+  .ann-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .ann-body { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* MODALS */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-overlay.open { display: flex; animation: modalFadeIn .2s ease-out; }
+  @keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .modal {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 24px;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+  }
+  .modal-title { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 16px; }
+  .modal-close {
+    float: right;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--text-muted);
+    line-height: 1;
+  }
+  .modal-close:hover { color: var(--danger); }
+
+  /* EMPTY STATE */
+  .empty { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+  .empty-icon { font-size: 42px; margin-bottom: 8px; }
+  .empty p { font-size: 14px; font-weight: 500; }
+
+  /* DARK TOGGLE */
+  .dark-toggle {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--card);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border);
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .2s;
+  }
+  .dark-toggle:hover { transform: scale(1.08); }
+
+  /* RESPONSIVE */
+  @media(max-width: 768px) {
+    .nav-inner { height: auto; padding: 10px 14px; flex-wrap: wrap; }
+    .nav-links { order: 3; width: 100%; margin-top: 6px; }
+    .greeting-banner { padding: 18px; }
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media(max-width: 480px) {
+    .metrics-grid { grid-template-columns: 1fr; }
+    .quick-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ NAVIGATION -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand" onclick="showPage('dashboard')">
+      <div class="brand-icon">🏫</div>
+      <div>
+        <span class="brand-title">School Life Hub</span>
+        <span class="brand-tag">Student Portal</span>
+      </div>
+    </div>
+    
+    <div class="nav-links">
+      <button class="nav-btn active" onclick="showPage('dashboard')">🏠 Dashboard</button>
+      <button class="nav-btn" onclick="showPage('academics')">📚 Academics</button>
+      <button class="nav-btn" onclick="showPage('resources')">📖 Study Materials</button>
+      <button class="nav-btn" onclick="showPage('timetable')">🗓️ Timetable</button>
+      <button class="nav-btn" onclick="showPage('assignments')">📝 Assignments</button>
+      <button class="nav-btn" onclick="showPage('exams')">🎯 Examinations</button>
+      <button class="nav-btn" onclick="showPage('announcements')">📢 Announcements</button>
+      <button class="nav-btn" onclick="showPage('events')">🏆 Events & Activities</button>
+    </div>
+
+    <div class="nav-user">
+      <button class="profile-pill" onclick="window.location.href='profile.html'" id="nav-profile" title="My Profile">
+        <span id="nav-avatar">🧑‍🎓</span>
+        <span id="nav-profile-name">Student</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════ 1. DASHBOARD -->
+<div id="page-dashboard" class="page active">
+
+  <!-- Greeting Hero -->
+  <div class="greeting-banner">
+    <div class="greeting-left">
+      <h2 id="greet-text">Welcome! 👋</h2>
+      <p id="greet-date"></p>
+      <p id="greet-quote" style="font-size:12px;opacity:.9;margin-top:6px;font-style:italic;">"Education is the most powerful weapon which you can use to change the world."</p>
+    </div>
+    <div class="greeting-meta">
+      <div class="greeting-meta-item">
+        <span class="meta-label">Class & Section</span>
+        <span class="meta-val" id="dash-class">—</span>
+      </div>
+      <div style="width:1px;height:30px;background:rgba(255,255,255,0.2);"></div>
+      <div class="greeting-meta-item">
+        <span class="meta-label">Roll Number</span>
+        <span class="meta-val" id="dash-roll">—</span>
+      </div>
+      <div style="width:1px;height:30px;background:rgba(255,255,255,0.2);"></div>
+      <div class="greeting-meta-item">
+        <span class="meta-label">Term Status</span>
+        <span class="meta-val" style="color:#FDE68A;">Active</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Key Metrics -->
+  <div class="metrics-grid">
+    <div class="metric-card" onclick="showPage('assignments')" style="cursor:pointer;">
+      <div class="metric-icon-box icon-amber">📝</div>
+      <div class="metric-info">
+        <h3 id="dash-stat-pending">0</h3>
+        <p>Pending Homework</p>
+      </div>
+    </div>
+    <div class="metric-card" onclick="showPage('academics')" style="cursor:pointer;">
+      <div class="metric-icon-box icon-green">📊</div>
+      <div class="metric-info">
+        <h3 id="dash-stat-attendance">—</h3>
+        <p>Attendance Record</p>
+      </div>
+    </div>
+    <div class="metric-card" onclick="showPage('exams')" style="cursor:pointer;">
+      <div class="metric-icon-box icon-blue">🎯</div>
+      <div class="metric-info">
+        <h3 id="dash-stat-exams">0</h3>
+        <p>Upcoming Exams</p>
+      </div>
+    </div>
+    <div class="metric-card" onclick="showPage('timetable')" style="cursor:pointer;">
+      <div class="metric-icon-box icon-purple">🗓️</div>
+      <div class="metric-info">
+        <h3 id="dash-stat-classes">0</h3>
+        <p>Classes Today</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Action Buttons -->
+  <div class="quick-row">
+    <button class="quick-btn" onclick="openModal('modal-assign')">
+      <span class="q-icon">📝</span>
+      <span>Add Homework</span>
+    </button>
+    <button class="quick-btn" onclick="openModal('modal-class')">
+      <span class="q-icon">➕</span>
+      <span>Add Period</span>
+    </button>
+    <button class="quick-btn" onclick="showPage('resources')">
+      <span class="q-icon">📖</span>
+      <span>Study Notes</span>
+    </button>
+    <button class="quick-btn" onclick="showPage('exams')">
+      <span class="q-icon">🎯</span>
+      <span>Exam Prep</span>
+    </button>
+    <button class="quick-btn" onclick="showPage('academics')">
+      <span class="q-icon">⏱️</span>
+      <span>Focus Timer</span>
+    </button>
+  </div>
+
+  <!-- 2-Column Dashboard Grid -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));gap:20px;">
+    
+    <!-- Today's Class Timetable -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📅 Today's Class Schedule <span class="card-title-badge" id="dash-today-label">Today</span></div>
+        <button class="btn btn-sm btn-secondary" onclick="openModal('modal-class')">+ Add Period</button>
+      </div>
+      <div id="dash-classes-list"></div>
+    </div>
+
+    <!-- Due Soon Homework -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">⚠️ Due Homework & Assignments</div>
+        <button class="btn btn-sm btn-secondary" onclick="openModal('modal-assign')">+ Add Homework</button>
+      </div>
+      <div id="dash-due-list"></div>
+    </div>
+
+    <!-- Upcoming Examinations -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">🎯 Upcoming Examinations</div>
+        <button class="btn btn-sm btn-secondary" onclick="openModal('modal-exam')">+ Add Exam</button>
+      </div>
+      <div id="dash-exams-list"></div>
+    </div>
+
+    <!-- School Announcements -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📢 Recent School Notices</div>
+        <button class="btn btn-sm btn-secondary" onclick="showPage('announcements')">View All Notices →</button>
+      </div>
+      <div id="dash-announcements-list"></div>
+    </div>
+
+    <!-- Daily Study Tasks & Mood -->
+    <div class="card" style="grid-column: 1 / -1;">
+      <div class="card-header">
+        <div class="card-title">✅ Daily Study Goals & Check-in</div>
+        <div class="mood-row" id="mood-row" style="display:flex;gap:6px;">
+          <button class="chip" onclick="setMood('😴','Sleepy')" title="Sleepy">😴 Sleepy</button>
+          <button class="chip" onclick="setMood('😊','Focused')" title="Focused">😊 Focused</button>
+          <button class="chip" onclick="setMood('🔥','Motivated')" title="Motivated">🔥 Motivated</button>
+          <button class="chip" onclick="setMood('🧠','Study Mode')" title="Study Mode">🧠 Study Mode</button>
+        </div>
+      </div>
+      <div id="dash-tasks-list"></div>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <input id="dash-task-input" placeholder="Add a study task or homework reminder..." onkeydown="if(event.key==='Enter')addDashTask()" />
+        <button class="btn btn-primary" style="padding:10px 18px" onclick="addDashTask()">Add Task</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ 2. ACADEMICS -->
+<div id="page-academics" class="page">
+  
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">📊 Subject Attendance Tracker</div>
+      <button class="btn btn-sm btn-primary" onclick="openModal('modal-subject')">+ Add Subject</button>
+    </div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">
+      Maintain at least 75% attendance in all core subjects as per school board regulations.
+    </p>
+    <div id="attendance-list"></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));gap:20px;">
+    <!-- Internal Marks / Test Tracker -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📈 Unit Tests & Term Assessments</div>
+        <button class="btn btn-sm btn-secondary" onclick="openModal('modal-marks')">+ Add Score</button>
+      </div>
+      <div id="marks-list"></div>
+    </div>
+
+    <!-- Pomodoro Focus Study Timer -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">⏱️ Homework & Revision Focus Timer</div>
+      </div>
+      <div class="pomo-wrap">
+        <div class="pomo-circle">
+          <div class="pomo-time" id="pomo-display">25:00</div>
+          <div class="pomo-label" id="pomo-label">🍅 Focus Session</div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;margin-bottom:12px;">
+          <button class="btn btn-primary" id="pomo-btn" onclick="togglePomo()">▶ Start Session</button>
+          <button class="btn btn-secondary" onclick="resetPomo()">↺ Reset</button>
+        </div>
+        <div style="font-size:13px;color:var(--text-muted);font-weight:600;" id="pomo-count">0 study sessions completed today</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Subject Notes -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">📝 Quick Study Notes & Formulas</div>
+    </div>
+    <div class="form-row">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px;">
+        <select id="note-subject">
+          <option value="">Select School Subject...</option>
+          <option>Mathematics</option>
+          <option>Science</option>
+          <option>Physics</option>
+          <option>Chemistry</option>
+          <option>Biology</option>
+          <option>Social Science</option>
+          <option>English</option>
+          <option>Hindi</option>
+          <option>Computer Science</option>
+          <option>Other</option>
+        </select>
+        <button class="btn btn-primary" onclick="addNote()">Save Quick Note</button>
+      </div>
+      <textarea id="note-content" placeholder="Type key points, homework instructions, or chapter formulas to remember..."></textarea>
+    </div>
+    <div id="notes-list"></div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ 3. STUDY MATERIALS -->
+<div id="page-resources" class="page">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">📖 Academic Resources & Study Materials</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:2px;">Curated notes, chapter summaries, question banks, and reference PDFs for Classes 6–12.</p>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('modal-resource')">+ Add Study Resource</button>
+    </div>
+
+    <!-- Filter & Search Bar -->
+    <div class="filter-bar">
+      <input type="text" id="res-search-input" placeholder="🔍 Search chapter or title..." oninput="filterResources()" style="flex:1;min-width:180px;" />
+      
+      <select id="res-grade-filter" onchange="filterResources()">
+        <option value="">All Classes</option>
+        <option>Class 6</option><option>Class 7</option><option>Class 8</option>
+        <option>Class 9</option><option>Class 10</option><option>Class 11</option><option>Class 12</option>
+      </select>
+
+      <select id="res-subject-filter" onchange="filterResources()">
+        <option value="">All Subjects</option>
+        <option>Mathematics</option>
+        <option>Science</option>
+        <option>Physics</option>
+        <option>Chemistry</option>
+        <option>Biology</option>
+        <option>Social Science</option>
+        <option>English</option>
+        <option>Hindi</option>
+        <option>Computer Science</option>
+      </select>
+
+      <select id="res-type-filter" onchange="filterResources()">
+        <option value="">All Types</option>
+        <option>Chapter Notes</option>
+        <option>Question Bank</option>
+        <option>Previous Year Paper</option>
+        <option>Formula Sheet</option>
+        <option>Important Questions</option>
+      </select>
+    </div>
+
+    <!-- Materials Grid -->
+    <div id="resources-list"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ 4. TIMETABLE -->
+<div id="page-timetable" class="page">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">🗓️ Weekly School Class Timetable</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:2px;">Monday to Saturday period-wise schedule with teacher names, room locations, and break times.</p>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('modal-class')">+ Add Period</button>
+    </div>
+
+    <!-- Day Navigation on Mobile/Tablet -->
+    <div class="chip-row" id="tt-day-chips" style="margin-bottom:16px;">
+      <button class="chip active" onclick="switchTimetableDay('All')">Full Weekly Grid</button>
+      <button class="chip" onclick="switchTimetableDay('Monday')">Monday</button>
+      <button class="chip" onclick="switchTimetableDay('Tuesday')">Tuesday</button>
+      <button class="chip" onclick="switchTimetableDay('Wednesday')">Wednesday</button>
+      <button class="chip" onclick="switchTimetableDay('Thursday')">Thursday</button>
+      <button class="chip" onclick="switchTimetableDay('Friday')">Friday</button>
+      <button class="chip" onclick="switchTimetableDay('Saturday')">Saturday</button>
+    </div>
+
+    <!-- Grid View -->
+    <div class="tt-container">
+      <div id="timetable-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ 5. ASSIGNMENTS -->
+<div id="page-assignments" class="page">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">📝 Homework & Project Assignments</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:2px;">Track homework deadlines, project submissions, and completion status.</p>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('modal-assign')">+ Add Homework</button>
+    </div>
+
+    <div class="filter-bar">
+      <div class="chip-row" style="margin:0;">
+        <button class="chip active" id="filter-assign-all" onclick="setAssignFilter('all')">All</button>
+        <button class="chip" id="filter-assign-pending" onclick="setAssignFilter('pending')">Pending</button>
+        <button class="chip" id="filter-assign-completed" onclick="setAssignFilter('completed')">Completed</button>
+        <button class="chip" id="filter-assign-overdue" onclick="setAssignFilter('overdue')">⚠️ Overdue</button>
+      </div>
+      <select id="assign-subject-filter" onchange="renderAssignments()" style="margin-left:auto;">
+        <option value="">Filter by Subject...</option>
+        <option>Mathematics</option>
+        <option>Science</option>
+        <option>Social Science</option>
+        <option>English</option>
+        <option>Hindi</option>
+        <option>Computer Science</option>
+      </select>
+    </div>
+
+    <div id="assignments-list"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ 6. EXAMINATIONS -->
+<div id="page-exams" class="page">
+  
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">🎯 Upcoming Examination Schedule</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:2px;">Datesheets, examination timings, and portion details for Mid-Terms and Finals.</p>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('modal-exam')">+ Add Exam Schedule</button>
+    </div>
+    <div id="exams-list"></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));gap:20px;">
+    <!-- Exam Preparation Syllabus Checklist -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📋 Exam Preparation Syllabus Checklist</div>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Track your revision topic-by-topic before exam day.</p>
+      
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;font-weight:600;">
+          <span>Syllabus Prepared:</span>
+          <span id="exam-checklist-pct">0%</span>
+        </div>
+        <div style="background:#F1F5F9;border-radius:99px;height:8px;overflow:hidden;">
+          <div id="exam-checklist-bar" style="background:var(--success);height:100%;width:0%;transition:width .3s;"></div>
+        </div>
+      </div>
+
+      <div id="exam-checklist-items"></div>
+      
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <input id="exam-topic-input" placeholder="Add chapter/topic to revise..." onkeydown="if(event.key==='Enter')addExamChecklistItem()" />
+        <button class="btn btn-primary" onclick="addExamChecklistItem()">+ Add</button>
+      </div>
+    </div>
+
+    <!-- Exam Guidelines & Instructions -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📌 Important Examination Rules</div>
+      </div>
+      <div style="font-size:13px;line-height:1.7;color:var(--text-muted);">
+        <p>• <strong>Admit Card & ID:</strong> Carry your school ID card and exam hall ticket at all times.</p>
+        <p>• <strong>Reporting Time:</strong> Be present in the examination hall 15 minutes before reading time.</p>
+        <p>• <strong>Stationery:</strong> Transparent pouches only. Calculators / Smart watches strictly prohibited.</p>
+        <p>• <strong>Reading Time:</strong> 15 minutes reading time provided prior to writing answers.</p>
+        <p>• <strong>Verification:</strong> Ensure the question paper and answer sheet have corresponding subject codes.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ 7. ANNOUNCEMENTS -->
+<div id="page-announcements" class="page">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">📢 Official School Announcements & Notices</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:2px;">School circulars, holiday notices, examination alerts, and competition results.</p>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('modal-announcement')">+ Post Announcement</button>
+    </div>
+
+    <!-- Category Filter Chips -->
+    <div class="chip-row">
+      <button class="chip active" onclick="filterAnnouncements('All')">All Notices</button>
+      <button class="chip" onclick="filterAnnouncements('Urgent')">🚨 Urgent</button>
+      <button class="chip" onclick="filterAnnouncements('Holiday')">🏖️ Holidays</button>
+      <button class="chip" onclick="filterAnnouncements('Exam')">🎯 Exams</button>
+      <button class="chip" onclick="filterAnnouncements('Competition')">🏆 Competitions</button>
+      <button class="chip" onclick="filterAnnouncements('General')">📌 General</button>
+    </div>
+
+    <div id="announcements-list"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ 8. EVENTS & ACTIVITIES -->
+<div id="page-events" class="page">
+  
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">🏆 School Events & Competitions</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:2px;">Annual day, Sports meet, Science exhibition, and Inter-school contests.</p>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('modal-event')">+ Add School Event</button>
+    </div>
+    <div id="events-list"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">🎯 School Clubs & Co-Curricular Activities</div>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:2px;">Join clubs, participate in student councils, and cultivate passions.</p>
+      </div>
+      <button class="btn btn-secondary" onclick="openModal('modal-club')">+ Join / Add Club</button>
+    </div>
+    <div id="clubs-list"></div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ MODALS -->
+
+<!-- Modal: Add Homework / Assignment -->
+<div class="modal-overlay" id="modal-assign">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-assign')">✕</button>
+    <div class="modal-title">📝 Add Homework / Assignment</div>
+    <div class="form-row">
+      <label>Homework Title</label>
+      <input id="assign-title" placeholder="e.g. Chapter 4 Exercise 4.2 Questions 1-8" />
+      
+      <label>Subject</label>
+      <select id="assign-subject">
+        <option>Mathematics</option>
+        <option>Science</option>
+        <option>Social Science</option>
+        <option>English</option>
+        <option>Hindi</option>
+        <option>Computer Science</option>
+        <option>Other</option>
+      </select>
+
+      <label>Due Date</label>
+      <input id="assign-due" type="date" />
+
+      <label>Homework Instructions / Notes (Optional)</label>
+      <textarea id="assign-desc" placeholder="e.g. Submit in fair homework notebook with graph sheets attached."></textarea>
+
+      <button class="btn btn-primary" onclick="addAssignment()">Add Homework</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add Class / Period -->
+<div class="modal-overlay" id="modal-class">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-class')">✕</button>
+    <div class="modal-title">🗓️ Add Class Timetable Period</div>
+    <div class="form-row">
+      <label>Subject</label>
+      <input id="class-name" placeholder="e.g. Mathematics" />
+
+      <label>Day of Week</label>
+      <select id="class-day">
+        <option>Monday</option>
+        <option>Tuesday</option>
+        <option>Wednesday</option>
+        <option>Thursday</option>
+        <option>Friday</option>
+        <option>Saturday</option>
+      </select>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label>Period Number</label>
+          <select id="class-period">
+            <option value="1">Period 1 (08:30 - 09:15)</option>
+            <option value="2">Period 2 (09:15 - 10:00)</option>
+            <option value="3">Period 3 (10:15 - 11:00)</option>
+            <option value="4">Period 4 (11:00 - 11:45)</option>
+            <option value="5">Period 5 (12:30 - 01:15)</option>
+            <option value="6">Period 6 (01:15 - 02:00)</option>
+            <option value="7">Period 7 (02:00 - 02:40)</option>
+            <option value="8">Period 8 (02:40 - 03:20)</option>
+          </select>
+        </div>
+        <div>
+          <label>Time</label>
+          <input id="class-time" value="08:30" />
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label>Teacher Name</label>
+          <input id="class-teacher" placeholder="e.g. Mrs. Sharma" />
+        </div>
+        <div>
+          <label>Room / Lab</label>
+          <input id="class-room" placeholder="e.g. Room 204" />
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="addClass()">Save Timetable Period</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add Study Resource -->
+<div class="modal-overlay" id="modal-resource">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-resource')">✕</button>
+    <div class="modal-title">📖 Add Study Material / Resource</div>
+    <div class="form-row">
+      <label>Title</label>
+      <input id="res-title" placeholder="e.g. Chapter 6: Life Processes Notes" />
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label>Class</label>
+          <select id="res-grade">
+            <option>Class 6</option><option>Class 7</option><option>Class 8</option>
+            <option>Class 9</option><option selected>Class 10</option><option>Class 11</option><option>Class 12</option>
+          </select>
+        </div>
+        <div>
+          <label>Subject</label>
+          <select id="res-subject">
+            <option>Mathematics</option>
+            <option>Science</option>
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>Biology</option>
+            <option>Social Science</option>
+            <option>English</option>
+            <option>Hindi</option>
+            <option>Computer Science</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label>Resource Type</label>
+          <select id="res-type">
+            <option>Chapter Notes</option>
+            <option>Question Bank</option>
+            <option>Previous Year Paper</option>
+            <option>Formula Sheet</option>
+            <option>Important Questions</option>
+          </select>
+        </div>
+        <div>
+          <label>Chapter / Unit</label>
+          <input id="res-chapter" placeholder="e.g. Chapter 6" />
+        </div>
+      </div>
+
+      <label>External Link / PDF URL (Optional)</label>
+      <input id="res-link" placeholder="e.g. https://ncert.nic.in/..." />
+
+      <label>Summary / Key Points</label>
+      <textarea id="res-desc" placeholder="Brief outline of concepts, diagrams, or questions covered..."></textarea>
+
+      <button class="btn btn-primary" onclick="addStudyMaterial()">Add Resource</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add Examination Schedule -->
+<div class="modal-overlay" id="modal-exam">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-exam')">✕</button>
+    <div class="modal-title">🎯 Add Examination Schedule</div>
+    <div class="form-row">
+      <label>Examination Name</label>
+      <input id="exam-name" placeholder="e.g. Mid-Term Examination / Unit Test 2" />
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label>Subject</label>
+          <select id="exam-subject">
+            <option>Mathematics</option>
+            <option>Science</option>
+            <option>Social Science</option>
+            <option>English</option>
+            <option>Hindi</option>
+            <option>Computer Science</option>
+          </select>
+        </div>
+        <div>
+          <label>Exam Date</label>
+          <input id="exam-date" type="date" />
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label>Time</label>
+          <input id="exam-time" placeholder="e.g. 09:00 AM - 12:00 PM" />
+        </div>
+        <div>
+          <label>Max Marks</label>
+          <input id="exam-max" type="number" placeholder="80" value="80" />
+        </div>
+      </div>
+
+      <label>Syllabus & Chapters Included</label>
+      <textarea id="exam-syllabus" placeholder="e.g. Chapters 1 to 5, Geometry, Trigonometry, and Statistics."></textarea>
+
+      <button class="btn btn-primary" onclick="addExam()">Save Exam Schedule</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add Announcement -->
+<div class="modal-overlay" id="modal-announcement">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-announcement')">✕</button>
+    <div class="modal-title">📢 Post School Announcement</div>
+    <div class="form-row">
+      <label>Notice Headline</label>
+      <input id="ann-title" placeholder="e.g. Annual Science Exhibition 2026 Details" />
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label>Category</label>
+          <select id="ann-category">
+            <option>General</option>
+            <option>Holiday</option>
+            <option>Exam</option>
+            <option>Competition</option>
+            <option>Urgent</option>
+          </select>
+        </div>
+        <div>
+          <label>Date</label>
+          <input id="ann-date" type="date" />
+        </div>
+      </div>
+
+      <label>Notice Content</label>
+      <textarea id="ann-content" placeholder="Full circular text or guidelines for students and parents..."></textarea>
+
+      <div style="display:flex;align-items:center;gap:8px;">
+        <input type="checkbox" id="ann-pinned" style="width:auto;" />
+        <label for="ann-pinned" style="margin:0;cursor:pointer;">Pin to top of school board</label>
+      </div>
+
+      <button class="btn btn-primary" onclick="addAnnouncement()">Publish Notice</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add School Event -->
+<div class="modal-overlay" id="modal-event">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-event')">✕</button>
+    <div class="modal-title">🏆 Add School Event / Competition</div>
+    <div class="form-row">
+      <label>Event Name</label>
+      <input id="event-name" placeholder="e.g. Inter-School Athletic Meet 2026" />
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label>Date</label>
+          <input id="event-date" type="date" />
+        </div>
+        <div>
+          <label>Category</label>
+          <select id="event-category">
+            <option>Sports</option>
+            <option>Science & Tech</option>
+            <option>Cultural</option>
+            <option>Debate & MUN</option>
+            <option>Annual Day</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Venue / Location</label>
+      <input id="event-venue" placeholder="e.g. School Sports Ground / Main Auditorium" />
+
+      <label>Description</label>
+      <textarea id="event-desc" placeholder="Details about registration, guidelines, and eligible classes..."></textarea>
+
+      <button class="btn btn-primary" onclick="addSchoolEvent()">Add Event</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add Club -->
+<div class="modal-overlay" id="modal-club">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-club')">✕</button>
+    <div class="modal-title">🎯 Join / Add School Club</div>
+    <div class="form-row">
+      <label>Club Name</label>
+      <input id="club-name" placeholder="e.g. Robotics & STEM Club" />
+
+      <label>Your Role</label>
+      <select id="club-role">
+        <option>Student Member</option>
+        <option>Club Coordinator</option>
+        <option>Secretary</option>
+        <option>President</option>
+        <option>Volunteer</option>
+      </select>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label>Teacher In-Charge</label>
+          <input id="club-teacher" placeholder="e.g. Mr. Verma" />
+        </div>
+        <div>
+          <label>Meeting Day</label>
+          <input id="club-day" placeholder="e.g. Every Friday 3:30 PM" />
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="addClub()">Save Club</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add Subject (Attendance) -->
+<div class="modal-overlay" id="modal-subject">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-subject')">✕</button>
+    <div class="modal-title">📊 Add School Subject</div>
+    <div class="form-row">
+      <label>Subject Name</label>
+      <input id="subject-name" placeholder="e.g. Mathematics" />
+      <button class="btn btn-primary" onclick="addSubject()">Save Subject</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Add Score / Marks -->
+<div class="modal-overlay" id="modal-marks">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-marks')">✕</button>
+    <div class="modal-title">📈 Add Assessment Score</div>
+    <div class="form-row">
+      <label>Subject</label>
+      <input id="marks-subject" placeholder="e.g. Mathematics" />
+
+      <label>Test / Assessment Name</label>
+      <input id="marks-test" placeholder="e.g. Unit Test 1 / Half-Yearly" />
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label>Score Obtained</label>
+          <input id="marks-score" type="number" placeholder="45" />
+        </div>
+        <div>
+          <label>Total Marks</label>
+          <input id="marks-max" type="number" placeholder="50" value="50" />
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="addMarks()">Save Assessment Score</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dark Mode Toggle Button -->
+<button class="dark-toggle" onclick="toggleDark()" title="Toggle Dark/Light Mode">🌙</button>
+
+<script src="app.js"></script>
+</body>
+</html>
